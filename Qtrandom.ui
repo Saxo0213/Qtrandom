@@ -14,7 +14,7 @@
    <enum>Qt::NoFocus</enum>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>抽樣系統</string>
   </property>
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
@@ -27,10 +27,17 @@
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout_2">
     <item>
-     <widget class="QListView" name="listView1"/>
+     <widget class="QListView" name="listView"/>
     </item>
     <item>
      <layout class="QVBoxLayout" name="verticalLayout_3">
+     <item>
+       <widget class="QPushButton" name="openButton_1">
+        <property name="text">
+         <string>開啟檔案</string>
+        </property>
+       </widget>
+      </item>
       <item>
        <widget class="QPushButton" name="SampleButton_1">
         <property name="text">
@@ -76,36 +83,26 @@
     <item>
      <widget class="QLabel" name="label">
       <property name="text">
-       <string>班級人數</string>
+       <string>班級人數：0</string>
       </property>
      </widget>
     </item>
     <item>
      <widget class="QLabel" name="label_2">
       <property name="text">
-       <string>抽樣人數</string>
+       <string>抽樣人數：</string>
       </property>
      </widget>
     </item>
    </layout>
   </widget>
-  <widget class="QLineEdit" name="classlineEdit">
-   <property name="geometry">
-    <rect>
-     <x>130</x>
-     <y>30</y>
-     <width>511</width>
-     <height>31</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QLineEdit" name="lineEdit">
    <property name="geometry">
     <rect>
-     <x>130</x>
-     <y>100</y>
-     <width>511</width>
-     <height>41</height>
+     <x>80</x>
+     <y>112</y>
+     <width>50</width>
+     <height>21</height>
     </rect>
    </property>
   </widget>
