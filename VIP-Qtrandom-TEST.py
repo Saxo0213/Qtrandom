@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import random
-from PySide2.QtWidgets import QApplication, QMessageBox
+from PySide2.QtWidgets import QApplication, QMessageBox,QFileDialog
 from PySide2.QtUiTools import QUiLoader
 from PySide2.QtCore import QFile, QStringListModel
 import numpy as np
@@ -12,37 +12,45 @@ class Qtrandom:
         qfile.open(QFile.ReadOnly)
         self.ui = QUiLoader().load(qfile)
         qfile.close()
+        self.ui.openButton_1.clicked.connect(self.fileopen)
         self.ui.ClassButton_3.clicked.connect(self.All_class)
         self.ui.SampleButton_1.clicked.connect(self.random_key_in)
         self.ui.SaveButton_2.clicked.connect(self.save_CSV)
         self.ui.ExitButton_4.clicked.connect(self.close)
         self.class_info = []
         self.sample_number=[]
+        self.ui.lineEdit.setText("0")
         self.search_no = ''
-        self.output_class()
-        self.word = self.ui.classlineEdit.text()
+        self.word = "0"
 
-    def output_class(self):
-        with open('VIP.csv', newline='',encoding='utf-8') as csvfile:
-            rows = csv.reader(csvfile, delimiter=',')
+    def fileopen(self):
+        filename, filetype =QFileDialog.getOpenFileName(None)
+        print(filename)
+        file=filename
+        if file == "":
+            return
+        with open(file, newline='',encoding='utf-8') as csvfile:
+            rows = csv.reader(csvfile, delimiter=':')
             for row in rows:
-                self.class_info.append(row)
+                self.class_info.extend(row)
             self.word=str(len(self.class_info))
-            self.ui.classlineEdit.setPlaceholderText(self.word)
-            self.ui.lineEdit.setPlaceholderText("0")
-            self.show_list(self.sample_number)
+            #self.ui.classlineEdit.setPlaceholderText(self.word)
+            self.ui.label.setText("班級人數:{}".format(self.word))
+            self.ui.lineEdit.setText("0")
+            self.show_list(self.class_info)
 
     def All_class(self): #讀取全部的學生名單，存在列表裡
-        self.class_info = []
-        with open('VIP.csv', newline='',encoding='utf-8') as csvfile:
-            rows = csv.reader(csvfile, delimiter=',')
-            for row in rows:
-                self.class_info.append(row)
         self.show_list(self.class_info)
 
 #-------------------------------------------------------
     def random_key_in(self): #key隨機數字 samplelineEdit.
-        if int(self.ui.lineEdit.text())<1 or int(self.ui.lineEdit.text()) > len(self.class_info):
+        if int(self.ui.lineEdit.text())<1:
+            msgBox = QMessageBox(QMessageBox.NoIcon, '提醒','沒有輸入抽樣人數')
+            msgBox.exec()
+            return
+        if int(self.ui.lineEdit.text()) > len(self.class_info):
+            msgBox = QMessageBox(QMessageBox.NoIcon, '提醒','抽樣人數太多')
+            msgBox.exec()
             return
         self.search_no = int(self.ui.lineEdit.text())
         if self.search_no >= 1:
@@ -59,9 +67,9 @@ class Qtrandom:
                 writer.writerows(self.sample_number)
 #
     def show_list(self,list):#顯示在螢幕
-        L = QStringListModel()
-        L.setStringList(list)
-        self.ui.listView.setModel(L)
+        self.qList = QStringListModel()
+        self.qList.setStringList(list)
+        self.ui.listView.setModel(self.qList)
 
     def close(self):#關閉程式
         self.ui.close()
