@@ -29,7 +29,6 @@ class Qtrandom:
         self.class_info=[]
         with open(file, newline='',encoding='utf-8') as csvfile:
             rows = csv.reader(csvfile, delimiter=',')
-            print(rows)
             for row in rows:
                 self.class_info.append(row)
             self.word=str(len(self.class_info))
