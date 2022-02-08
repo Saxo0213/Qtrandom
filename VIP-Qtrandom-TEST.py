@@ -28,10 +28,10 @@ class Qtrandom:
             return
         self.class_info=[]
         with open(file, newline='',encoding='utf-8') as csvfile:
-            rows = csv.reader(csvfile, delimiter=':')
+            rows = csv.reader(csvfile, delimiter=',')
+            print(rows)
             for row in rows:
-                P=row[0].split(",")
-                self.class_info.append(P)
+                self.class_info.append(row)
             self.word=str(len(self.class_info))
             self.ui.label.setText("班級人數:{}".format(self.word))
             self.ui.lineEdit.setText("0")
@@ -67,7 +67,7 @@ class Qtrandom:
     def show_list(self,list):#顯示在螢幕
         pf=[]
         for l in list:
-            pf.append("".join(l))
+            pf.append(",".join(l))
         self.qList = QStringListModel()
         self.qList.setStringList(pf)
         self.ui.listView.setModel(self.qList)
