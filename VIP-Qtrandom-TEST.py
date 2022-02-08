@@ -17,7 +17,6 @@ class Qtrandom:
         self.ui.SampleButton_1.clicked.connect(self.random_key_in)
         self.ui.SaveButton_2.clicked.connect(self.save_CSV)
         self.ui.ExitButton_4.clicked.connect(self.close)
-        self.class_info = []
         self.sample_number=[]
         self.ui.lineEdit.setText("0")
         self.search_no = ''
@@ -29,10 +28,12 @@ class Qtrandom:
         file=filename
         if file == "":
             return
+        self.class_info=[]
         with open(file, newline='',encoding='utf-8') as csvfile:
             rows = csv.reader(csvfile, delimiter=':')
             for row in rows:
-                self.class_info.extend(row)
+                P=row[0].split(",")
+                self.class_info.append(P)
             self.word=str(len(self.class_info))
             #self.ui.classlineEdit.setPlaceholderText(self.word)
             self.ui.label.setText("班級人數:{}".format(self.word))
@@ -63,12 +64,16 @@ class Qtrandom:
 # # -------------------------------------------------------
     def save_CSV(self):#把self.sample_number存成CSV檔案
         with open('output.csv', 'w', encoding='utf-8') as csvfile:
-                writer = csv.writer(csvfile)
-                writer.writerows(self.sample_number)
+            print(self.sample_number)
+            writer = csv.writer(csvfile)
+            writer.writerows(self.sample_number)
 #
     def show_list(self,list):#顯示在螢幕
+        pf=[]
+        for l in list:
+            pf.append("".join(l))
         self.qList = QStringListModel()
-        self.qList.setStringList(list)
+        self.qList.setStringList(pf)
         self.ui.listView.setModel(self.qList)
 
     def close(self):#關閉程式
