@@ -3,7 +3,6 @@ import random
 from PySide2.QtWidgets import QApplication, QMessageBox,QFileDialog
 from PySide2.QtUiTools import QUiLoader
 from PySide2.QtCore import QFile, QStringListModel
-import numpy as np
 import csv
 
 class Qtrandom:
@@ -24,7 +23,6 @@ class Qtrandom:
 
     def fileopen(self):
         filename, filetype =QFileDialog.getOpenFileName(None)
-        print(filename)
         file=filename
         if file == "":
             return
@@ -35,7 +33,6 @@ class Qtrandom:
                 P=row[0].split(",")
                 self.class_info.append(P)
             self.word=str(len(self.class_info))
-            #self.ui.classlineEdit.setPlaceholderText(self.word)
             self.ui.label.setText("班級人數:{}".format(self.word))
             self.ui.lineEdit.setText("0")
             self.show_list(self.class_info)
@@ -64,7 +61,6 @@ class Qtrandom:
 # # -------------------------------------------------------
     def save_CSV(self):#把self.sample_number存成CSV檔案
         with open('output.csv', 'w', encoding='utf-8') as csvfile:
-            print(self.sample_number)
             writer = csv.writer(csvfile)
             writer.writerows(self.sample_number)
 #
